@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
-from app.objects.wine import FileManager
+from objects.wine import FileManager
 
 #sys.path.append('../objects')
 # sys.path.append('../')
