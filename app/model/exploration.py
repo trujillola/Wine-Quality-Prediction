@@ -8,7 +8,6 @@ from objects.wine import FileManager
 #sys.path.append('../objects')
 # sys.path.append('../')
 # from objects.wine import Wine, FileManager
-
 # from app.objects.wine import FileManager
 pd.set_option('display.max_column',13)
 
@@ -16,7 +15,6 @@ pd.set_option('display.max_column',13)
 # Min quality value = 3
 # Max quality value = 8
 # Seulement 6 vins ont obtenus une note de 3 !!
-
 
 fm = FileManager("./app/data/Wines.csv")
 df = fm.read_data()

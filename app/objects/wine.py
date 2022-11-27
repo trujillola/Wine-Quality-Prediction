@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import pandas as pd
 
-
 @dataclass
 class FileManager:
 
@@ -16,7 +15,6 @@ class FileManager:
     def write_data(self, wine):
         with open(self.file_name, "a") as f:
             f.write(wine)
-
 
 @dataclass
 class Wine:
@@ -47,5 +45,3 @@ class Wine:
         self.sulphates = sulphates
         self.alcohol = alcohol
         self.quality = quality
-
-
