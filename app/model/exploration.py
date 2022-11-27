@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
-from app.objects.wine import FileManager
+from objects.wine import FileManager
 
 #sys.path.append('../objects')
 # sys.path.append('../')
@@ -15,7 +15,7 @@ pd.set_option('display.max_column',13)
 # No missing values
 # Min quality value = 3
 # Max quality value = 8
-# Seulement 
+# Seulement 6 vins ont obtenus une note de 3 !!
 
 
 fm = FileManager("./app/data/Wines.csv")
@@ -25,4 +25,5 @@ print(df.shape)
 print(df.head())
 print(df.describe())
 df['quality'].value_counts().hist()
+plt.show()
 
