@@ -62,10 +62,3 @@ async def root():
             "Informations" : "Please check the folowing content to know how to use the different functionalities of the app",
             "Access to the Docs" : "http://localhost/docs",
             "help" : help}
-
-{ 
-    "method" : "POST",
-    "path"   : "/api/predict",
-    "params" : "Wine params",
-    "result" : "get a result of the wine quality sent between 0 and 10"
-}

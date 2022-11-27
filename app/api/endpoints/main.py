@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Header, Response
 from objects.wine import Wine
-from typing import List, Optional
 import os
 
 """
