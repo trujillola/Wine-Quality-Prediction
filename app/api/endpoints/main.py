@@ -1,61 +1,84 @@
-from fastapi import FastAPI
-import json
+from fastapi import APIRouter, Header, Response
+from objects.wine import Wine
+from typing import List, Optional
+import os
 
-app = FastAPI()
+"""
+    Describe the parameters of this api file
+"""
+router = APIRouter(
+    prefix='/api',
+    tags = ['api']
+)
 
-help = [
-    { 
-        "method" : "POST",
-        "path" : "/api/predict",
-        "params" : "Wine params",
-        "result" : "get a result of the wine quality sent between 0 and 10"
-    },
-    { 
-        "method" : "GET",
-        "path" : "/api/predict",
-        "result" : "get the combination to identify the best wine"
-    },
-    { 
-        "method" : "GET",
-        "path" : "/api/model",
-        "result" : "get the serialized model"
-    },
-    { 
-        "method" : "GET",
-        "path" : "/api/model/description",
-        "result" : "Get Informations about the model used"
-    },
-    { 
-        "method" : "PUT",
-        "path" : "/api/model",
-        "params" : "A wine model",
-        "result" : "Add an object to the model"
-    },
-    { 
-        "method" : "POST",
-        "path" : "/api/model/retrain",
-        "result" : "Train another time the model"
-    }
-]
 
-@app.get("/")
-async def root():
-    """
-        Get the Root of the project
-        Describe the functionalities of the API
-    """
-    return {"title": "Welcome on our Wine API Quality Prediction",
-            "Informations" : "Please check the folowing content to know how to use the different functionalities of the app",
-            "help" : help}
+vin = Wine(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1)
 
-{ 
-    "method" : "POST",
-    "path" : "/api/predict",
-    "params" : "Wine params",
-    "result" : "get a result of the wine quality sent between 0 and 10"
-}
+# async def read_items(x_token : Optional[List[str]] = Header(None)):
+#     """
+#         Get the token
+#     """
+#     return {"X-Token values" : x_token}
 
-@app.post("/api/predict")
+@router.post("/predict")
 async def get_wine_quality(wine : Wine):
+    """
+        Send the score of the wine sent in parameters
+        wine : An example of Wine
+    """
     score : int = 0
-    return score
+    return {"score" : score}
+
+@router.get("/predict")
+async def identify_best_wine():
+    """
+        Send the characteristic of the best wine found by the model
+    """
+    return {"wine" : vin}
+
+@router.get("/model")
+async def get_serialized_model():
+    """
+        Send the content of the data model
+    """
+    if not os.path.exists('./data/model.txt'):
+        #train model
+        print("pas de fichier !!!!!!!!!!!!!!!!!!!!")
+    with open('./data/model.txt', 'r') as f:
+        data = f.read()
+    return Response(content=data, media_type="PlainTextResponse")
+
+
+@router.get("/model/description")
+async def get_model_description():
+    """
+        Get the description of the model
+    """
+    if not os.path.exists('./data/model.txt'):
+        #train model
+        print("pas de fichier !!!!!!!!!!!!!!!!!!!!")
+    with open('./data/model.txt', 'r') as f:
+        data = f.read()
+    return Response(content=data, media_type="PlainTextResponse")
+
+@router.put("/model")
+async def add_new_entry(wine : Wine):
+    """
+        Add a new Wine Entry in the CSV
+    """
+    ##add a new wine
+    if True:
+        return {"message" : "Succeed"}
+    else : 
+        return {"message" : "An error occured adding the new entry"}
+
+@router.post("/model/retrain")
+async def train_model():
+    ##train model
+    """
+        Train the model
+    """
+    if True : 
+        return {"message" : "Succeed"}
+    else : 
+        return {"message" : "An error occured training the model"}
