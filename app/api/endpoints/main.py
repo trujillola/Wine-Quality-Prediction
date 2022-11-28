@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Header, Response
 from objects.wine import Wine
 import os
+from objects.launcher import Launcher
 
 """
     Describe the parameters of this api file
@@ -10,6 +11,7 @@ router = APIRouter(
     tags = ['api']
 )
 
+launcher = Launcher()
 
 vin = Wine(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1)
 
@@ -23,7 +25,7 @@ vin = Wine(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1)
 async def get_wine_quality(wine : Wine):
     """
         Send the score of the wine sent in parameters
-        wine : An example of Wine
+        wine : An example of Wine() object
     """
     score : int = 0
     return {"score" : score}
@@ -53,12 +55,11 @@ async def get_model_description():
     """
         Get the description of the model
     """
-    if not os.path.exists('./data/model.txt'):
-        #train model
-        print("pas de fichier !!!!!!!!!!!!!!!!!!!!")
-    with open('./data/model.txt', 'r') as f:
-        data = f.read()
+    parameters,score = launcher.describe()
+    data = 'Model parameters : \n' + str(parameters) + '\nScore : ' + str(score)
     return Response(content=data, media_type="PlainTextResponse")
+
+import json
 
 @router.put("/model")
 async def add_new_entry(wine : Wine):
@@ -77,7 +78,8 @@ async def train_model():
     """
         Train the model
     """
-    if True : 
+    
+    if  launcher.retrain(): 
         return {"message" : "Succeed"}
     else : 
         return {"message" : "An error occured training the model"}

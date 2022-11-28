@@ -3,7 +3,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from joblib import dump, load
-
+import os
 
 
 class Datasets:
@@ -32,7 +32,7 @@ class LinearRegressionModel:
     filepath : str
 
     def __init__(self, data : Datasets):
-        self.filepath = "./app/data/regression.joblib"
+        self.filepath = "./data/regression.joblib"
         self.model = LinearRegression().fit(data.X_train, data.y_train)
         self.score = self.model.score(data.X_test, data.y_test)
         print("Score : ",self.score)
@@ -45,7 +45,8 @@ class LinearRegressionModel:
 
     def save(self):
         print(f"Saving model in {self.filepath}...")
-        dump(self.model, self.filepath)
+        if os.path.exists(self.filepath) :
+            dump(self.model, self.filepath)
 
     def load(self):
         print(f"Loading model from {self.filepath}...")
@@ -61,11 +62,12 @@ class RandomForestModel:
     filepath : str
 
     def __init__(self):
-        self.filepath = "./app/data/random_forest.joblib"
+        self.filepath = "./data/random_forest.joblib"
         self.model = RandomForestClassifier()
 
     def train(self,data : Datasets):
-        self.model.fit(data.X_train, data.y_train)
+        self.model = self.model.fit(data.X_train, data.y_train)
+        return self.model
 
     def predict(self, data : Datasets):
         return self.model.predict(data.X_test)
@@ -76,8 +78,8 @@ class RandomForestModel:
 
     def save(self):
         # print(f"Saving model in {self.filepath}...")
-        dump(self.model, self.filepath)
-
+        return dump(self.model, self.filepath)
+            
     def load(self):
         # print(f"Loading model from {self.filepath}...")
         self.model = load(self.filepath)

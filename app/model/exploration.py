@@ -16,7 +16,7 @@ pd.set_option('display.max_column',13)
 # Max quality value = 8
 # Seulement 6 vins ont obtenus une note de 3 !!
 
-fm = FileManager("./app/data/Wines.csv")
+fm = FileManager("./data/Wines.csv")
 df = fm.read_data()
 print(df.columns)
 print(df.shape)

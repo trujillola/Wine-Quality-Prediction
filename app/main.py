@@ -4,10 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from objects.launcher import Launcher
 
-# Récupérer le modèle
-launcher = Launcher()
-launcher.launch()
-
 app = FastAPI ()
 
 app.include_router(main.router)
