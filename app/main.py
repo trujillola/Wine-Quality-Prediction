@@ -1,13 +1,12 @@
 from fastapi import FastAPI
 from api.endpoints import main
 from fastapi.middleware.cors import CORSMiddleware
-
+import uvicorn
 from objects.launcher import Launcher
 
 app = FastAPI ()
 
 app.include_router(main.router)
-
 
 origins = [
     "http://localhost"
@@ -68,3 +67,6 @@ async def root():
             "Informations" : "Please check the folowing content to know how to use the different functionalities of the app",
             "Access to the Docs" : "http://localhost/docs",
             "help" : help}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

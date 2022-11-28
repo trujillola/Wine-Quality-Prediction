@@ -12,7 +12,7 @@ class Launcher:
     model : RandomForestModel
 
     def __init__(self):
-        self.file_manager = FileManager("./data/Wines.csv")
+        self.file_manager = FileManager("./app/data/Wines.csv")
         self.datasets = Datasets(self.file_manager.read_data())
         self.model = RandomForestModel()
         print(self.model.filepath)
