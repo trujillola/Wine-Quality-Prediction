@@ -1,60 +1,12 @@
 #Linear regression 
-from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from joblib import dump, load
-import os
+from objects.wine_manager import Wine, Datasets
+import pandas as pd
 
+  
 
-class Datasets:
-
-    X_train : list
-    y_train : list
-    X_test : list
-    y_test : list
-
-    def __init__(self, data):
-        # Select the columns corresponding to the features describing the wine
-        X = data.drop(['quality', 'Id'], axis=1)
-
-        # Select the target variable column    
-        y = data["quality"]
-
-        # Split the dataset into training and test sets
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-        
-
-# Create a linear regression object
-class LinearRegressionModel:
-
-    model : LinearRegression
-    score : float
-    filepath : str
-
-    def __init__(self, data : Datasets):
-        self.filepath = "./data/regression.joblib"
-        self.model = LinearRegression().fit(data.X_train, data.y_train)
-        self.score = self.model.score(data.X_test, data.y_test)
-        print("Score : ",self.score)
-
-    def predict(self, X):
-        return self.model.predict(X)
-
-    def score(self, X, y):
-        return self.score
-
-    def save(self):
-        print(f"Saving model in {self.filepath}...")
-        if os.path.exists(self.filepath) :
-            dump(self.model, self.filepath)
-
-    def load(self):
-        print(f"Loading model from {self.filepath}...")
-        self.model = load(self.filepath)
-
-
-
-# Create a linear regression object
+# Create a Random Forest Model object
 class RandomForestModel:
 
     model : RandomForestClassifier
@@ -66,20 +18,60 @@ class RandomForestModel:
         self.model = RandomForestClassifier()
 
     def train(self,data : Datasets):
-        self.model = self.model.fit(data.X_train, data.y_train)
+        """
+            Trains the model on the training set
+            
+            args : data is a Datasets object
+
+            returns : the trained model
+        """ 
+        self.model = self.model.fit(data.X_train.values, data.y_train.values)
         return self.model
 
     def predict(self, data : Datasets):
-        return self.model.predict(data.X_test)
+        """
+            Predict the wine quality score of the test set
+            
+            args : data is a Datasets object
+
+            returns : array of scores
+        """ 
+        return self.model.predict(data.X_test.values)
+
+    def predict_one(self, wine: pd.DataFrame):
+        """
+            Returns the quality score of a wine based on its features
+
+            Args:
+                wine (Wine): An object of type wine to predict the quality score
+            Returns:
+                int: The quality score of the wine
+        """ 
+        return self.model.predict(wine.values)
 
     def score(self,data : Datasets):
+        """
+            returns th e score of the model on the test set 
+
+            args : data is a Datasets object
+
+            returns : float
+        """ 
         self.model_score = self.model.score(data.X_test, data.y_test)
         return self.model_score
 
     def save(self):
-        # print(f"Saving model in {self.filepath}...")
-        return dump(self.model, self.filepath)
+        """
+            Try to save the model in the filepath
+        """
+        try:
+            dump(self.model, self.filepath)
+            return self.filepath
+        except :
+            return 'None'
             
     def load(self):
-        # print(f"Loading model from {self.filepath}...")
+        """
+            Loads the model from the filepath
+        """ 
         self.model = load(self.filepath)
