@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
-
+import csv
 
 @dataclass
 class Wine():
@@ -55,8 +55,6 @@ class Wine():
             The read data if the csv file has been read, False otherwise.
         """
         csv_string =  f"{self.fixed_acidity},{self.volatile_acidity},{self.citric_acid},{self.residual_sugar},{self.chlorides},{self.free_sulfur_dioxide},{self.total_sulfur_dioxide},{self.density},{self.pH},{self.sulphates},{self.alcohol},{self.quality}"
-        if self.Id is not None:
-            csv_string += f",{self.Id}"
         return csv_string
 
 
@@ -123,9 +121,9 @@ class FileManager:
             True if the wine has been added to the csv file, False otherwise
 
         """
-        if os.path.exists(self.file_name) :
+        if os.path.exists(self.file_name):
             try :
-                f = open(self.file_name, "a")
+                f = open(self.file_name, "a+")
                 f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
                 f.close()
                 return True

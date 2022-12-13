@@ -25,7 +25,7 @@ class RandomForestModel:
 
             returns : the trained model
         """ 
-        self.model = self.model.fit(data.X_train.values, data.y_train.values)
+        self.model = self.model.fit(data.X_train, data.y_train)
         return self.model
 
     def predict(self, data : Datasets):

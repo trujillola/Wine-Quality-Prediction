@@ -78,6 +78,7 @@ async def add_new_entry(wine : Wine):
         return {"message" : "Succeed"}
     else : 
         return {"message" : "An error occured adding the new entry"}
+        
 
 @router.post("/model/retrain")
 async def train_model():
