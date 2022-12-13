@@ -55,8 +55,6 @@ class Wine():
             The read data if the csv file has been read, False otherwise.
         """
         csv_string =  f"{self.fixed_acidity},{self.volatile_acidity},{self.citric_acid},{self.residual_sugar},{self.chlorides},{self.free_sulfur_dioxide},{self.total_sulfur_dioxide},{self.density},{self.pH},{self.sulphates},{self.alcohol},{self.quality}"
-        if self.Id is not None:
-            csv_string += f",{self.Id}"
         return csv_string
 
 
@@ -85,7 +83,7 @@ class FileManager:
     file_name: str
 
     def __init__(self):
-        self.file_name = "./data/Wines.csv"
+        self.file_name = "./app/data/Wines.csv"
 
     def get_next_Id(self):
         """
@@ -126,8 +124,12 @@ class FileManager:
         if os.path.exists(self.file_name) :
             try :
                 f = open(self.file_name, "a")
-                f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                print(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                print(f)
+                p = f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                print(p)
                 f.close()
+                print("Wine added to the csv file")
                 return True
             except :
                 print("Error while writing data")
