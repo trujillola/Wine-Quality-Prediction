@@ -17,7 +17,7 @@ class Launcher:
         """
             Initialize the launcher object and train the model if it doesn't exist
         """ 
-        self.file_manager = FileManager()
+        self.file_manager = FileManager("/data/Wines.csv")
         self.datasets = Datasets(self.file_manager.read_data())
         self.model = RandomForestModel()
         if os.path.exists(self.model.filepath) :

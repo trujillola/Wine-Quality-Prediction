@@ -9,7 +9,7 @@ docker build -t wine .
 
 To run a container of the image, use : 
 
-docker run -d -p 8088:8000 wine
+ docker run -d -p 8088:8000 -v "$(pwd)"/app/data:/data/ wine
 
 
 The application can be accessed on your browser at the address : 

@@ -82,8 +82,8 @@ class FileManager:
 
     file_name: str
 
-    def __init__(self):
-        self.file_name = "./app/data/Wines.csv"
+    def __init__(self, file_name):
+        self.file_name = file_name
 
     def get_next_Id(self):
         """
