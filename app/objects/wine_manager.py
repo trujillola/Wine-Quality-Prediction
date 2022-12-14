@@ -83,7 +83,7 @@ class FileManager:
     file_name: str
 
     def __init__(self):
-        self.file_name = "./data/Wines.csv"
+        self.file_name = "./app/data/Wines.csv"
 
     def get_next_Id(self):
         """
@@ -123,9 +123,13 @@ class FileManager:
         """
         if os.path.exists(self.file_name):
             try :
-                f = open(self.file_name, "a+")
-                f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                f = open(self.file_name, "a")
+                print(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                print(f)
+                p = f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                print(p)
                 f.close()
+                print("Wine added to the csv file")
                 return True
             except :
                 print("Error while writing data")

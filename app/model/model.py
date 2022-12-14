@@ -14,7 +14,7 @@ class RandomForestModel:
     filepath : str
 
     def __init__(self):
-        self.filepath = "./data/random_forest.joblib"
+        self.filepath = "./app/data/random_forest.joblib"
         self.model = RandomForestClassifier()
 
     def train(self,data : Datasets):
