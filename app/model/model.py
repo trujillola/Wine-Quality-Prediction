@@ -13,8 +13,8 @@ class RandomForestModel:
     model_score : float
     filepath : str
 
-    def __init__(self):
-        self.filepath = "./app/data/random_forest.joblib"
+    def __init__(self,save_file_name : str):
+        self.filepath = save_file_name
         self.model = RandomForestClassifier()
 
     def train(self,data : Datasets):
@@ -36,7 +36,7 @@ class RandomForestModel:
 
             returns : array of scores
         """ 
-        return self.model.predict(data.X_test.values)
+        return self.model.predict(data.X_test)
 
     def predict_one(self, wine: pd.DataFrame):
         """
@@ -74,4 +74,8 @@ class RandomForestModel:
         """
             Loads the model from the filepath
         """ 
-        self.model = load(self.filepath)
+        try : 
+            self.model = load(self.filepath)
+            return self.model
+        except :
+            return 'None'

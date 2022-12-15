@@ -36,8 +36,8 @@ class Wine():
         self.quality = quality
         self.Id = Id
 
-    def __str__(self):
-        return str(self.__dict__)
+    # def __str__(self):
+    #     return str(self.__dict__)
     
     def df_for_prediction(self):
         """
@@ -45,7 +45,7 @@ class Wine():
 
             Returns: the dataframe for prediction with the wine features
         """    
-        return pd.DataFrame([self.__dict__]).drop(['quality', 'Id', '__pydantic_initialised__'], axis=1)
+        return pd.DataFrame([self.__dict__]).drop(['quality', 'Id','__pydantic_initialised__'], axis=1)
 
     def to_csv(self):
         """
@@ -82,8 +82,8 @@ class FileManager:
 
     file_name: str
 
-    def __init__(self):
-        self.file_name = "./app/data/Wines.csv"
+    def __init__(self, file_name):
+        self.file_name = file_name
 
     def get_next_Id(self):
         """
@@ -93,7 +93,14 @@ class FileManager:
             The next highest Id of the list of wines
         """
         data = self.read_data()
-        return int(data["Id"].max()) + 1
+        if isinstance(data, pd.DataFrame) :
+            if not data.empty :
+                return int(data["Id"].max()) + 1 
+            else :
+                return 0
+        else :
+            return -1
+            
 
     def read_data(self):
         """
@@ -103,11 +110,18 @@ class FileManager:
             The read data if the csv file has been read, False otherwise.
         """
         try :
-            data = pd.read_csv(self.file_name)
-            return data
+            if os.path.exists(self.file_name) :
+                if os.stat(self.file_name).st_size == 0:
+                    return pd.DataFrame()
+                else :
+                    data = pd.read_csv(self.file_name)
+                    return data
+            else :
+                return False
         except :
             print("Error while reading csv file.")
             exit()
+
 
     def write_data(self, wine : Wine):
         """
@@ -121,13 +135,10 @@ class FileManager:
             True if the wine has been added to the csv file, False otherwise
 
         """
-        if os.path.exists(self.file_name):
+        if os.path.exists(self.file_name) and os.stat(self.file_name).st_size != 0:
             try :
                 f = open(self.file_name, "a")
-                print(wine.to_csv()+','+str(self.get_next_Id())+'\n')
-                print(f)
                 p = f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
-                print(p)
                 f.close()
                 print("Wine added to the csv file")
                 return True
@@ -136,12 +147,13 @@ class FileManager:
                 return False
         else :
             try :
-                f = open(self.file_name, "w")
-                f.write("fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol,quality,Id\n")
-                f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
-                f.close()
+                print(self.file_name)
+                with open(self.file_name, 'w') as creating_new_csv_file: 
+                    creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
+                    creating_new_csv_file.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
                 return True
             except :
+                print("FAUX")
                 print("Error while writing data")
                 return False
         
