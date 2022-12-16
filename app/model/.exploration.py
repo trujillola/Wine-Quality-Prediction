@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import os
@@ -10,7 +9,7 @@ from sklearn.model_selection import train_test_split
 pd.set_option('display.max_column',13)
 
 # Load datastet
-wines = pd.read_csv("./app/data/Wines.csv")
+wines = pd.read_csv("/data/Wines.csv")
 
 
 # Explore dataset :

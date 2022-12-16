@@ -1,14 +1,11 @@
 from fastapi import FastAPI
-from api.endpoints import model
-from api.endpoints import predict
+from api.endpoints import main
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from objects.launcher import Launcher
 
-app = FastAPI ()
+app = FastAPI()
 
-app.include_router(model.router)
-app.include_router(predict.router)
+app.include_router(main.router)
 
 origins = [
     "http://localhost"
@@ -20,7 +17,6 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers=["*"]
 )
-
 
 help = [
     { 
@@ -56,7 +52,6 @@ help = [
         "result" : "Train another time the model"
     }
 ]
-
 
 @app.get("/")
 async def root():

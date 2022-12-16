@@ -1,7 +1,7 @@
 #Linear regression 
 from sklearn.ensemble import RandomForestClassifier
 from joblib import dump, load
-from objects.wine_manager import Wine, Datasets
+from objects.wine_manager import Datasets
 import pandas as pd
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 

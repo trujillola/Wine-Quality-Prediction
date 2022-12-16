@@ -1,28 +1,40 @@
-from fastapi import APIRouter, Header, Response
+from fastapi import APIRouter
 from objects.wine_manager import Wine
 import os
 from objects.launcher import Launcher
-
 
 """
     Describe the parameters of this api file
 """
 router = APIRouter(
-    prefix='/api/model',
-    tags = ['api/model']
+    prefix='/api',
+    tags = ['api']
 )
 
 launcher = Launcher()
 
-# vin = Wine(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0)
+@router.get("/predict")
+async def identify_best_wine():
+    """
+        Send the characteristic of the best wine found by the model
+    """
+    return {"wine" : "oui"}
 
-# async def read_items(x_token : Optional[List[str]] = Header(None)):
-#     """
-#         Get the token
-#     """
-#     return {"X-Token values" : x_token}
+@router.post("/predict")
+async def get_wine_quality(wine : Wine):
+    """
+        Returns the score of the wine sent in parameters
+        wine : An example of Wine() object
+        Returns : the score of the wine (int)
+    """
+    score : int = launcher.predict_score(wine)
+    if isinstance(score,int) and score >= 0 and score <= 10 :
+         return {"score" : score}
+    else : 
+        return {"message" : "An error occured while predicting the score."}
 
-@router.get("/")
+
+@router.get("/model")
 async def get_serialized_model():
     """
         Save the model in a file
@@ -33,7 +45,7 @@ async def get_serialized_model():
         return {"message" : "An error occured while saving the model. Please check the paths."}
 
 
-@router.get("/description")
+@router.get("/model/description")
 async def get_model_description():
     """
         Get the description of the model and its training score
@@ -46,7 +58,7 @@ async def get_model_description():
         return {"message" : "An error occured while retrieving the parameters."}
 
 
-@router.put("/")
+@router.put("/model")
 async def add_new_entry(wine : Wine):
     """
         Add a new Wine Entry in the CSV
@@ -58,7 +70,7 @@ async def add_new_entry(wine : Wine):
         return {"message" : "An error occured adding the new entry"}
         
 
-@router.post("/retrain")
+@router.post("/model/retrain")
 async def train_model():
     ##train model
     """
