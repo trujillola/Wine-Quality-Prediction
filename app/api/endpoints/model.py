@@ -3,12 +3,13 @@ from objects.wine_manager import Wine
 import os
 from objects.launcher import Launcher
 
+
 """
     Describe the parameters of this api file
 """
 router = APIRouter(
-    prefix='/api',
-    tags = ['api']
+    prefix='/api/model',
+    tags = ['api/model']
 )
 
 launcher = Launcher()
@@ -21,30 +22,7 @@ launcher = Launcher()
 #     """
 #     return {"X-Token values" : x_token}
 
-
-@router.get("/predict")
-async def identify_best_wine():
-    """
-        Send the characteristic of the best wine found by the model
-    """
-    return {"wine" : "oui"}
-
-
-@router.post("/predict")
-async def get_wine_quality(wine : Wine):
-    """
-        Returns the score of the wine sent in parameters
-        wine : An example of Wine() object
-        Returns : the score of the wine (int)
-    """
-    score : int = launcher.predict_score(wine)
-    if isinstance(score,int) and score >= 0 and score <= 10 :
-         return {"score" : score}
-    else : 
-        return {"message" : "An error occured while predicting the score."}
-
-
-@router.get("/model")
+@router.get("/")
 async def get_serialized_model():
     """
         Save the model in a file
@@ -55,7 +33,7 @@ async def get_serialized_model():
         return {"message" : "An error occured while saving the model. Please check the paths."}
 
 
-@router.get("/model/description")
+@router.get("/description")
 async def get_model_description():
     """
         Get the description of the model and its training score
@@ -68,7 +46,7 @@ async def get_model_description():
         return {"message" : "An error occured while retrieving the parameters."}
 
 
-@router.put("/model")
+@router.put("/")
 async def add_new_entry(wine : Wine):
     """
         Add a new Wine Entry in the CSV
@@ -79,7 +57,7 @@ async def add_new_entry(wine : Wine):
     else : 
         return {"message" : "An error occured adding the new entry"}
 
-@router.post("/model/retrain")
+@router.post("/retrain")
 async def train_model():
     ##train model
     """

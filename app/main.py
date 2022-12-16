@@ -1,17 +1,18 @@
 from fastapi import FastAPI
-from api.endpoints import main
+from api.endpoints import model
+from api.endpoints import predict
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from objects.launcher import Launcher
 
 app = FastAPI ()
 
-app.include_router(main.router)
+app.include_router(model.router)
+app.include_router(predict.router)
 
 origins = [
     "http://localhost"
 ]
-
 
 app.add_middleware(
     CORSMiddleware,
