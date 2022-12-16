@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 from joblib import dump, load
 from objects.wine_manager import Wine, Datasets
 import pandas as pd
+from sklearn.model_selection import StratifiedKFold, GridSearchCV
 
   
 
@@ -13,9 +14,9 @@ class RandomForestModel:
     model_score : float
     filepath : str
 
-    def __init__(self):
-        self.filepath = "./app/data/random_forest.joblib"
-        self.model = RandomForestClassifier()
+    def __init__(self,save_file_name : str):
+        self.filepath = save_file_name
+        self.model = RandomForestClassifier(max_depth=6, n_estimators=15, min_samples_leaf=3, min_samples_split=4)
 
     def train(self,data : Datasets):
         """
@@ -36,7 +37,7 @@ class RandomForestModel:
 
             returns : array of scores
         """ 
-        return self.model.predict(data.X_test.values)
+        return self.model.predict(data.X_test)
 
     def predict_one(self, wine: pd.DataFrame):
         """
@@ -47,7 +48,7 @@ class RandomForestModel:
             Returns:
                 int: The quality score of the wine
         """ 
-        return self.model.predict(wine.values)
+        return self.model.predict(wine)
 
     def score(self,data : Datasets):
         """
@@ -74,4 +75,8 @@ class RandomForestModel:
         """
             Loads the model from the filepath
         """ 
-        self.model = load(self.filepath)
+        try : 
+            self.model = load(self.filepath)
+            return self.model
+        except :
+            return 'None'

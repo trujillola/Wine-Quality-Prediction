@@ -2,6 +2,7 @@ from objects.wine_manager import FileManager, Wine,Datasets
 from model.model import RandomForestModel
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
+import pandas as pd
 
 import os
 
@@ -10,16 +11,25 @@ class Launcher:
     file_manager : FileManager
     datasets : Datasets
     model : RandomForestModel
-    data_file_name: str
-    predict_file_name: str
 
-    def __init__(self):
+    def __init__(self,data_file_name : str = "/data/Wines.csv", save_file_name : str = "/data/random_forest.joblib"):
         """
             Initialize the launcher object and train the model if it doesn't exist
         """ 
-        self.file_manager = FileManager("/data/Wines.csv")
-        self.datasets = Datasets(self.file_manager.read_data())
-        self.model = RandomForestModel()
+        self.file_manager = FileManager(data_file_name)
+        data = self.file_manager.read_data()
+
+        if isinstance(data, pd.DataFrame) :
+            if data.empty :
+                print("The given file is empty. Please add some data to it.")
+                exit("Empty file")
+            self.datasets = Datasets(self.file_manager.read_data())
+        else :
+            print("The given file is unknown. Please check the file name.")
+            exit("Unknown file name")
+            
+        self.model = RandomForestModel(save_file_name)
+
         if os.path.exists(self.model.filepath) :
             print("Load model...")
             self.model.load()
@@ -28,7 +38,6 @@ class Launcher:
             self.model.train(self.datasets)
             print("Save model...")
             self.model.save()
-        # print(self.datasets.X_train.iloc[0])
 
 
     def predict_score(self,wine : Wine):
@@ -52,7 +61,9 @@ class Launcher:
             Returns:
                 bool: True if the data was added, False otherwise.
         """
-        return self.file_manager.write_data(wine)
+        result = self.file_manager.write_data(wine)
+        self.datasets = Datasets(self.file_manager.read_data())
+        return result
 
 
     def serialize(self):

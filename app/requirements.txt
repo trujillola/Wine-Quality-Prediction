@@ -1,5 +1,7 @@
 uvicorn
-scikit-learn
+scikit-learn==1.1.3
 joblib
 pandas
 fastapi
+pytest
+pytest-cov
