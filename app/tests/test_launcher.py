@@ -13,11 +13,17 @@ class TestLauncher(unittest.TestCase) :
 
 
     def test_init_no_file(self):
+        """
+            Test the initialization of the Launcher object when the file doesn't exist
+        """
         with self.assertRaises(SystemExit) as cm:
             launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(cm.exception.code, "Unknown file name")
 
     def test_init_file_empty(self):
+        """
+            Test the initialization of the Launcher object when the file is empty
+        """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             pass
         with self.assertRaises(SystemExit) as cm:
@@ -26,6 +32,9 @@ class TestLauncher(unittest.TestCase) :
         os.remove("./tests/Wines_tests.csv")
 
     def test_init_file_not_empty(self):
+        """
+            Test the initialization of the Launcher object when the file is not empty
+        """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
             creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
@@ -59,6 +68,9 @@ class TestLauncher(unittest.TestCase) :
     #     os.remove("./data/Wines_tests.csv")
 
     def test_add_data(self):
+        """
+            Test the add_data function
+        """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
             creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
@@ -70,6 +82,9 @@ class TestLauncher(unittest.TestCase) :
         os.remove("./tests/Wines_tests.csv")
 
     def test_serialize(self):
+        """
+            Test the serialization of the model
+        """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
             creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
@@ -81,6 +96,9 @@ class TestLauncher(unittest.TestCase) :
         os.remove("./tests/save_model_test.joblib")
 
     def test_describe(self):
+        """
+            Test the describe function
+        """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
             creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
@@ -90,6 +108,9 @@ class TestLauncher(unittest.TestCase) :
         self.assertEqual(len(launcher.describe()),2)
 
     def test_retrain(self):
+        """
+            Test the retrain function
+        """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
             creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")

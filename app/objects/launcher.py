@@ -61,7 +61,9 @@ class Launcher:
             Returns:
                 bool: True if the data was added, False otherwise.
         """
-        return self.file_manager.write_data(wine)
+        result = self.file_manager.write_data(wine)
+        self.datasets = Datasets(self.file_manager.read_data())
+        return result
 
 
     def serialize(self):

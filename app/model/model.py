@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 from joblib import dump, load
 from objects.wine_manager import Wine, Datasets
 import pandas as pd
+from sklearn.model_selection import StratifiedKFold, GridSearchCV
 
   
 
@@ -15,7 +16,7 @@ class RandomForestModel:
 
     def __init__(self,save_file_name : str):
         self.filepath = save_file_name
-        self.model = RandomForestClassifier()
+        self.model = RandomForestClassifier(max_depth=6, n_estimators=15, min_samples_leaf=3, min_samples_split=4)
 
     def train(self,data : Datasets):
         """

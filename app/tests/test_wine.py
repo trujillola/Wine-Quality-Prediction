@@ -12,6 +12,9 @@ import pandas as pd
 class TestDatasets(unittest.TestCase) :
 
     def test_init(self):
+        """
+            Test the initialization of the Datasets object
+        """
         wine = Wine("7.4","0.7","0.0","1.9","0.076","11.0","34.0","0.9978","3.51","0.56","9.4","5")
         self.assertEqual(wine.fixed_acidity, "7.4")
         self.assertEqual(wine.volatile_acidity, "0.7")
@@ -33,6 +36,9 @@ class TestDatasets(unittest.TestCase) :
     #     self.assertEqual( wine.df_for_prediction().equals(pd.DataFrame(data = [[7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4]], columns =  ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol'])), True)
 
     def test_to_csv(self) :
+        """
+            Test the to_csv method
+        """
         wine = Wine(7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4,5.0)
         self.assertEqual(wine.to_csv(),"7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5.0")
 
