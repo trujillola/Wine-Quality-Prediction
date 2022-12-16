@@ -49,23 +49,25 @@ class TestLauncher(unittest.TestCase) :
         self.assertIsInstance(launcher.datasets,Datasets)
         self.assertIsInstance(launcher.model,RandomForestModel)
         os.remove("./tests/Wines_tests.csv")
-        # Test si le model est bien load ou train
 
 
-    # Même problème que pour le test de la fonction df_to_predict
-    # def test_predict_score(self):
-    #     with open("./data/Wines_tests.csv", 'w') as creating_new_csv_file: 
-    #         creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
-    #         creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-    #         creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-    #         creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-    #         creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-    #         creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-    #         creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-    #     launcher = Launcher("./data/Wines_tests.csv")
-    #     wine= Wine(7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5)
-    #     launcher.predict_score(wine)
-    #     os.remove("./data/Wines_tests.csv")
+    def test_predict_score(self):
+        """
+            Test the predict_score method
+        """
+        with open("./data/Wines_tests.csv", 'w') as creating_new_csv_file: 
+            creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
+            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+        launcher = Launcher("./data/Wines_tests.csv")
+        wine= Wine(7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4)
+        wine.__dict__['__pydantic_initialised__'] = True
+        self.assertEqual(launcher.predict_score(wine),5)
+        os.remove("./data/Wines_tests.csv")
 
     def test_add_data(self):
         """

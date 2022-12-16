@@ -48,7 +48,7 @@ class RandomForestModel:
             Returns:
                 int: The quality score of the wine
         """ 
-        return self.model.predict(wine.values)
+        return self.model.predict(wine)
 
     def score(self,data : Datasets):
         """

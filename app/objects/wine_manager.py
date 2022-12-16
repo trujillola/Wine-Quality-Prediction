@@ -66,6 +66,8 @@ class Datasets:
     y_test : list
 
     def __init__(self, data):
+        data = data.rename(columns={"fixed acidity": "fixed_acidity", "volatile acidity": "volatile_acidity", "citric acid": "citric_acid", "residual sugar": "residual_sugar", "free sulfur dioxide": "free_sulfur_dioxide", "total sulfur dioxide": "total_sulfur_dioxide"})
+
         # Select the target variable column    
         y = data["quality"]
 

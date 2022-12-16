@@ -30,10 +30,13 @@ class TestDatasets(unittest.TestCase) :
         self.assertEqual(wine.quality, "5") 
         self.assertEqual(wine.Id,None)
 
-    # def test_df_for_prediction(self):
-    #     #Dans cet objet wine il n'y a pas '__pydantic_initialised__' parce qu'il n'a pas été sérialisé avec Json 
-    #     wine = Wine(7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4).toJson()
-    #     self.assertEqual( wine.df_for_prediction().equals(pd.DataFrame(data = [[7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4]], columns =  ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol'])), True)
+    def test_df_for_prediction(self):
+        """
+            Test the df_for_prediction method
+        """
+        wine = Wine(7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4)
+        wine.__dict__['__pydantic_initialised__'] = True
+        self.assertEqual(wine.df_for_prediction().equals(pd.DataFrame(data = [[7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4]], columns =  ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol'])) , True)
 
     def test_to_csv(self) :
         """
