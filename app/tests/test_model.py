@@ -1,4 +1,4 @@
-# Test Launcher :
+# Test Model :
 import sys
 import os
 
