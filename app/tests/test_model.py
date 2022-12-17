@@ -1,4 +1,3 @@
-# Test Model :
 import sys
 import os
 
@@ -14,6 +13,9 @@ from objects.wine_manager import FileManager,Datasets, Wine
 
 
 class TestModel(unittest.TestCase) :
+    """
+        Used to test Model Class
+    """
 
     def test_init(self):
         """
@@ -28,12 +30,8 @@ class TestModel(unittest.TestCase) :
         """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,1\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,4\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,5\n")
+            for i in range(6):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         self.file_manager = FileManager("./tests/Wines_tests.csv")
         datasets =  Datasets(self.file_manager.read_data())
         model= RandomForestModel("./tests/save_model_test.joblib")
@@ -68,7 +66,7 @@ class TestModel(unittest.TestCase) :
         datasets =  Datasets(self.file_manager.read_data())
         model= RandomForestModel("./tests/save_model_test.joblib")
         model.train(datasets)
-        wine = Wine(7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4)
+        Wine(7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4)
         self.assertEqual(model.predict(datasets)[0],5)
         os.remove("./tests/Wines_tests.csv")
 

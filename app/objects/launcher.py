@@ -3,10 +3,12 @@ from model.model import RandomForestModel
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 import pandas as pd
-
 import os
 
 class Launcher:
+    """
+        Used to interact with Wine data, Models and files
+    """
 
     file_manager : FileManager
     datasets : Datasets
@@ -15,6 +17,7 @@ class Launcher:
     def __init__(self,data_file_name : str = "/data/Wines.csv", save_file_name : str = "/data/random_forest.joblib"):
         """
             Initialize the launcher object and train the model if it doesn't exist
+            params : file path of model and list of Wines
         """ 
         self.file_manager = FileManager(data_file_name)
         data = self.file_manager.read_data()
@@ -82,14 +85,12 @@ class Launcher:
         score = self.model.score(self.datasets)
         return [parameters, score]
 
-
     def retrain(self):
         """
             Retrains the model and save it
         """
         print("Train model...")
         return isinstance(self.model.train(self.datasets),RandomForestClassifier)
-
 
     def get_best_wine(self):
         """

@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from objects.wine_manager import Wine
-import os
 from objects.launcher import Launcher
 
 """
@@ -65,7 +64,6 @@ async def add_new_entry(wine : Wine):
     """
         Add a new Wine Entry in the CSV
     """
-    # add a new wine entry
     if launcher.add_data(wine):
         return {"message" : "Succeed"}
     else : 
@@ -74,11 +72,9 @@ async def add_new_entry(wine : Wine):
 
 @router.post("/model/retrain")
 async def train_model():
-    ##train model
     """
         Train the model
     """
-    
     if  launcher.retrain(): 
         return {"message" : "Succeed"}
     else : 

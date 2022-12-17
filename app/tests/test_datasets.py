@@ -10,6 +10,9 @@ from objects.wine_manager import FileManager, Datasets
 
 
 class TestDatasets(unittest.TestCase) :
+    """
+        Used to test Datasets Class
+    """
 
     def test_init(self):
         """

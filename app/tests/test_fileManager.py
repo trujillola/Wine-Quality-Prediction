@@ -1,4 +1,3 @@
-# Test File manager :
 import sys
 import os
 
@@ -10,8 +9,10 @@ from objects.wine_manager import FileManager, Wine
 
 
 class TestFileManager(unittest.TestCase) :
+    """
+        Used to test File Manager Class    
+    """
 
-    #Test constructor
     def test_init(self):
         """
             Test the initialization of the FileManager object
@@ -19,7 +20,6 @@ class TestFileManager(unittest.TestCase) :
         manager = FileManager("/data/Wines.csv")
         self.assertEqual(manager.file_name,"/data/Wines.csv")
 
-    #Test get_next_Id
     def test_get_next_Id_no_file(self):
         """
             Test the get_next_Id method when the file doesn't exist
@@ -50,8 +50,6 @@ class TestFileManager(unittest.TestCase) :
         self.assertEqual(manager.get_next_Id(),1)
         os.remove("./tests/Wines_tests.csv")
 
-
-    #Test read_data
     def test_read_data_no_file(self):
         """
             Test the read_data method when the file doesn't exist
@@ -80,7 +78,6 @@ class TestFileManager(unittest.TestCase) :
         self.assertEqual(manager.read_data().empty,False)
         os.remove("./tests/Wines_tests.csv")
 
-    #Test write_data
     def test_write_data_no_file(self):
         """
             Test the write_data method when the file doesn't exist

@@ -4,18 +4,21 @@ from sklearn.linear_model import LinearRegression
 from joblib import dump, load
 from objects.wine_manager import Datasets
 import pandas as pd
-from sklearn.model_selection import StratifiedKFold, GridSearchCV
 
-  
-
-# Create a Random Forest Model object
 class RandomForestModel:
+    """
+        Create a Random Forest Model object and methods to interact with it
+    """
 
     model : RandomForestClassifier
     model_score : float
     filepath : str
 
     def __init__(self,save_file_name : str):
+        """
+            Initialize the Random Forest
+            args : model file path 
+        """
         self.filepath = save_file_name
         self.model = RandomForestClassifier(max_depth=6, n_estimators=15, min_samples_leaf=3, min_samples_split=4)
 
@@ -53,7 +56,7 @@ class RandomForestModel:
 
     def score(self,data : Datasets):
         """
-            returns th e score of the model on the test set 
+            returns the score of the model on the test set 
 
             args : data is a Datasets object
 
@@ -131,7 +134,6 @@ class RandomForestModel:
             n2=sum(regr.coef_[0]**2)
             #Update of the centre by moving in the directions of the gradient (given by the coefficients)
             center+=regr.coef_[0]*(10-firstpredict[0])*regr.coef_[0]/n2
-        
             niter+=1
             # print("*******************************")
             #print("Itération :", niter)

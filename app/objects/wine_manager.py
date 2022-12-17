@@ -6,6 +6,9 @@ from sklearn.model_selection import train_test_split
 
 @dataclass
 class Wine():
+    """
+        Describe the Wine Class
+    """
 
     fixed_acidity : float
     volatile_acidity : float
@@ -22,6 +25,9 @@ class Wine():
     Id : int =  None
 
     def __init__(self, fixed_acidity, volatile_acidity, citric_acid, residual_sugar, chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density, pH, sulphates, alcohol,quality=None,Id=None):
+        """
+            Initailize a new Wine Class with its parameters
+        """
         self.fixed_acidity = fixed_acidity
         self.volatile_acidity = volatile_acidity
         self.citric_acid = citric_acid
@@ -35,9 +41,6 @@ class Wine():
         self.alcohol = alcohol
         self.quality = quality
         self.Id = Id
-
-    # def __str__(self):
-    #     return str(self.__dict__)
     
     def df_for_prediction(self):
         """
@@ -59,6 +62,9 @@ class Wine():
 
 
 class Datasets:
+    """
+        Describe the Datasets Class
+    """
 
     X_train : list
     y_train : list
@@ -66,6 +72,9 @@ class Datasets:
     y_test : list
 
     def __init__(self, data):
+        """
+            Initialize a new Dataset with its parameters
+        """
         data = data.rename(columns={"fixed acidity": "fixed_acidity", "volatile acidity": "volatile_acidity", "citric acid": "citric_acid", "residual sugar": "residual_sugar", "free sulfur dioxide": "free_sulfur_dioxide", "total sulfur dioxide": "total_sulfur_dioxide"})
 
         # Select the target variable column    
@@ -81,10 +90,17 @@ class Datasets:
 
 @dataclass
 class FileManager:
+    """
+        Class used to interact with files
+    """
 
     file_name: str
 
     def __init__(self, file_name):
+        """
+            Initialize a new Class
+            params : Wine List csv file path
+        """
         self.file_name = file_name
 
     def get_next_Id(self):
@@ -140,7 +156,7 @@ class FileManager:
         if os.path.exists(self.file_name) and os.stat(self.file_name).st_size != 0:
             try :
                 f = open(self.file_name, "a")
-                p = f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
+                f.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
                 f.close()
                 print("Wine added to the csv file")
                 return True
@@ -155,7 +171,6 @@ class FileManager:
                     creating_new_csv_file.write(wine.to_csv()+','+str(self.get_next_Id())+'\n')
                 return True
             except :
-                print("FAUX")
                 print("Error while writing data")
                 return False
         

@@ -60,7 +60,7 @@ async def root():
         Describe the functionalities of the API
     """
     return {"title": "Welcome on our Wine API Quality Prediction",
-            "Informations" : "Please check the folowing content to know how to use the different functionalities of the app",
+            "Informations" : "Please check the following content to know how to use the different functionalities of the app",
             "Access to the Docs" : "http://localhost/docs",
             "help" : help}
 

@@ -1,15 +1,16 @@
-# Test Wine : :
 import sys
-import os
 
 sys.path.append('.')
 sys.path.append('../')
 
 import unittest
-from objects.wine_manager import FileManager, Datasets , Wine
+from objects.wine_manager import Wine
 import pandas as pd
 
 class TestDatasets(unittest.TestCase) :
+    """
+        Used to test Datasets Class
+    """
 
     def test_init(self):
         """

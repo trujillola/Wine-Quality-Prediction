@@ -1,4 +1,3 @@
-# Test Launcher :
 import sys
 import os
 
@@ -10,15 +9,18 @@ import pandas as pd
 from objects.launcher import Launcher
 from objects.wine_manager import FileManager, Datasets, Wine
 from model.model import RandomForestModel
-class TestLauncher(unittest.TestCase) :
 
+class TestLauncher(unittest.TestCase) :
+    """
+        Used to test Launcher Class
+    """
 
     def test_init_no_file(self):
         """
             Test the initialization of the Launcher object when the file doesn't exist
         """
         with self.assertRaises(SystemExit) as cm:
-            launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
+            Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(cm.exception.code, "Unknown file name")
 
     def test_init_file_empty(self):
@@ -28,7 +30,7 @@ class TestLauncher(unittest.TestCase) :
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             pass
         with self.assertRaises(SystemExit) as cm:
-            launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
+            Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(cm.exception.code, "Empty file")
         os.remove("./tests/Wines_tests.csv")
 
@@ -38,12 +40,8 @@ class TestLauncher(unittest.TestCase) :
         """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,1\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,4\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,5\n")
+            for i in range(6):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertIsInstance(launcher.file_manager,FileManager)
         self.assertEqual(launcher.file_manager.file_name,"./tests/Wines_tests.csv")
@@ -51,19 +49,14 @@ class TestLauncher(unittest.TestCase) :
         self.assertIsInstance(launcher.model,RandomForestModel)
         os.remove("./tests/Wines_tests.csv")
 
-
     def test_predict_score(self):
         """
             Test the predict_score method
         """
         with open("./data/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,3\n")
+            for i in range(6):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         launcher = Launcher("./data/Wines_tests.csv")
         wine= Wine(7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4)
         wine.__dict__['__pydantic_initialised__'] = True
@@ -76,9 +69,8 @@ class TestLauncher(unittest.TestCase) :
         """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,1\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
+            for i in range(3):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         wine= Wine(7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0)
         self.assertEqual(launcher.add_data(wine),True)
@@ -90,9 +82,8 @@ class TestLauncher(unittest.TestCase) :
         """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,1\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
+            for i in range(3):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(launcher.serialize(),True)
         os.remove("./tests/Wines_tests.csv")
@@ -104,9 +95,8 @@ class TestLauncher(unittest.TestCase) :
         """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,1\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
+            for i in range(3):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(len(launcher.describe()),2)
 
@@ -116,9 +106,8 @@ class TestLauncher(unittest.TestCase) :
         """
         with open("./tests/Wines_tests.csv", 'w') as creating_new_csv_file: 
             creating_new_csv_file.write("fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality,Id\n") 
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,0\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,1\n")
-            creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
+            for i in range(3):
+                creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,"+str(i)+"\n")
         launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(launcher.retrain(),True)
 

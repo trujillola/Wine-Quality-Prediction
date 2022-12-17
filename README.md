@@ -1,5 +1,10 @@
 # Wine-Quality-Prediction
 
+# Contributors
+
+Matthieu Cabrera
+Laura Trujillo
+
 # Launch the Project
 To run this project, you must Docker installed on your machine.
 
