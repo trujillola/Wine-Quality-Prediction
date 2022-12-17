@@ -89,3 +89,12 @@ class Launcher:
         """
         print("Train model...")
         return isinstance(self.model.train(self.datasets),RandomForestClassifier)
+
+
+    def get_best_wine(self):
+        """
+            Returns the composition of wine with the best quality score
+        """
+        X = pd.concat([self.datasets.X_train, self.datasets.X_test], axis=0, ignore_index=True)
+        Y = np.array(pd.concat([self.datasets.y_train, self.datasets.y_test], axis=0, ignore_index=True).to_numpy()).reshape(X.shape[0],1)
+        return self.model.best_wine(X,Y)

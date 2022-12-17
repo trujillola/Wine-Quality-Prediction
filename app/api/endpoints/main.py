@@ -18,7 +18,8 @@ async def identify_best_wine():
     """
         Send the characteristic of the best wine found by the model
     """
-    return {"wine" : "oui"}
+    wine = launcher.get_best_wine()
+    return {"wine" : wine}
 
 @router.post("/predict")
 async def get_wine_quality(wine : Wine):
@@ -53,6 +54,7 @@ async def get_model_description():
     parameters,score = launcher.describe()
     if isinstance(parameters,dict) and  isinstance(score,float) and score >= 0 and score <= 1 :
         parameters['score_model'] = score
+        parameters['model'] = "RandomForest"
         return parameters
     else : 
         return {"message" : "An error occured while retrieving the parameters."}

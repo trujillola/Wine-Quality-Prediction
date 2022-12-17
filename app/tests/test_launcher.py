@@ -6,6 +6,7 @@ sys.path.append('.')
 sys.path.append('../')
 
 import unittest
+import pandas as pd
 from objects.launcher import Launcher
 from objects.wine_manager import FileManager, Datasets, Wine
 from model.model import RandomForestModel
@@ -120,3 +121,10 @@ class TestLauncher(unittest.TestCase) :
             creating_new_csv_file.write("7.4,0.7,0.0,1.9,0.076,11.0,34.0,0.9978,3.51,0.56,9.4,5,2\n")
         launcher = Launcher("./tests/Wines_tests.csv","./tests/save_model_test.joblib")
         self.assertEqual(launcher.retrain(),True)
+
+    def test_get_best_wine(self):
+        """
+            Test the function that calls best_wine to give the best wine composition to the api
+        """
+        launcher = Launcher("./data/Wines.csv","./tests/save_model_test.joblib")
+        self.assertIsInstance(launcher.get_best_wine(),pd.DataFrame)
