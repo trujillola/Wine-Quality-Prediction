@@ -132,11 +132,12 @@ class RandomForestModel:
                 if (firstpredict<newvalue): pas=1-(1-pas)/2
                 else: pas=pasinit
             n2=sum(regr.coef_[0]**2)
+
             #Update of the centre by moving in the directions of the gradient (given by the coefficients)
-            center+=regr.coef_[0]*(10-firstpredict[0])*regr.coef_[0]/n2
+            center+=pas*(10-firstpredict[0])*regr.coef_[0]/n2
             niter+=1
             # print("*******************************")
-            #print("Itération :", niter)
+            # print("Itération :", niter)
             newvalue= regr.predict([center])
             # print("Note estimée:" ,newvalue[0][0])
             if (notemax<newvalue[0]):
@@ -146,7 +147,9 @@ class RandomForestModel:
             if (niter==nitermax):break
         # print("***************************")
         # print("Meilleure Composition:")
+        centermax = centermax*(maxs-mins)+mins
         centermax[centermax<mins]=mins[centermax<mins]
         centermax[centermax>maxs]=maxs[centermax>maxs]
-        # print(centermax)
-        return pd.DataFrame(centermax)
+        centermax = dict(centermax)
+        centermax['quality'] = notemax
+        return centermax

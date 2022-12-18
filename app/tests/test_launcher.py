@@ -116,4 +116,4 @@ class TestLauncher(unittest.TestCase) :
             Test the function that calls best_wine to give the best wine composition to the api
         """
         launcher = Launcher("./data/Wines.csv","./tests/save_model_test.joblib")
-        self.assertIsInstance(launcher.get_best_wine(),pd.DataFrame)
+        self.assertIsInstance(launcher.get_best_wine(),dict)

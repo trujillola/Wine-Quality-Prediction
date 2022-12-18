@@ -132,4 +132,8 @@ class TestModel(unittest.TestCase) :
         X = pd.concat([datasets.X_train, datasets.X_test], axis=0, ignore_index=True)
         Y = np.array(pd.concat([datasets.y_train, datasets.y_test], axis=0, ignore_index=True).to_numpy()).reshape(X.shape[0],1)
         model= RandomForestModel("./tests/save_model_test.joblib")
-        self.assertIsInstance(model.best_wine(X,Y),pd.DataFrame)
+        print(model.best_wine(X,Y))
+        self.assertIsInstance(model.best_wine(X,Y),dict)
+
+
+
